@@ -1,5 +1,5 @@
 from unittest import TestCase
-from route_finder import initialise, find
+from route_finder import initialise, Nodes
 
 
 class TestRouteFinder(TestCase):
@@ -14,5 +14,6 @@ class TestRouteFinder(TestCase):
         )
 
     def test_find(self):
-        self.assertEqual(find(self.nodes, "Helios"), 0)
-        self.assertEqual(find(self.nodes, 1), "Nike")
+        nodes = Nodes(self.nodes)
+        self.assertEqual(nodes.find("Helios"), 0)
+        self.assertEqual(nodes.find(1), "Nike")

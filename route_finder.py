@@ -1,4 +1,5 @@
 import random
+from collections import OrderedDict
 
 
 class Node(object):
@@ -115,6 +116,12 @@ class Nodes(object):
     def nodes(self):
         return self._nodes
 
+    def get_node(self, val):
+        if val in self.nodes:
+            return self.nodes[val]
+        else:
+            return [x for x in self.nodes.values() if x.name == val][0]
+
     def find(self, val):
         if val in self.nodes:
             return self.nodes[val].name
@@ -141,9 +148,92 @@ class Nodes(object):
             node = new_node
 
 
+class TraversalFailureError(Exception):
+    pass
+
+
+class TraversalNode(Node):
+    def __init__(self, node):
+        super(TraversalNode, self).__init__(name=node.name, id=node.id)
+        self._node = node
+        self._open = None
+
+    @property
+    def links(self):
+        return self._node.links
+
+
+class Selector(object):
+    def __init__(self, traverser):
+        self._traverser = traverser
+
+
+class DefaultSelector(Selector):
+    def __call__(self):
+        return self._traverser.open_nodes[0]
+
+
+class Traverse(object):
+    def __init__(self, nodes, selector=None):
+        self._nodes = Nodes({node_id: TraversalNode(node) for node_id, node in nodes.nodes.items()})
+        self._selector = selector or DefaultSelector(self)
+        self._open_nodes = OrderedDict()
+
+    @property
+    def open_nodes(self):
+        return self._open_nodes
+
+    def open(self, node):
+        if node._open is None:
+            node._open = True
+            self._open_nodes[node.id] = node
+
+    def close(self, node):
+        node._open = False
+        del self._open_nodes[node.id]
+
+    def traverse(self):
+        while self.open_nodes:
+            next_node = self._selector()
+            yield next_node
+
+
+def run_traverser(n, start, dest):
+    traverser = Traverse(n)
+    traverser._nodes.find(start)._open = True
+
+    try:
+        for node in traverser.traverse():
+            if node.id == dest:
+                print "Found route to {}".format(node.name)
+                break
+            else:
+                print node
+    except TraversalFailureError:
+        raise
+
+
 def main():
     n = Nodes(initialise())
-    n.random_walk(15, 3)
+    # n.random_walk(15, 3)
+    start = 15
+    dest = 3
+
+    traverser = Traverse(n)
+    start_node = traverser._nodes.get_node(start)
+    traverser.open(start_node)
+
+    while traverser.open_nodes:
+        this_node = traverser.open_nodes.values()[0]  # Breadth-first
+        print "Traversing {}".format(this_node.name)
+        if this_node.id == dest:
+            print "Found route"
+            break
+        else:
+            for node_id in this_node.links:
+                linked_node = traverser._nodes.get_node(node_id)
+                traverser.open(linked_node)
+            traverser.close(this_node)
 
 
 if __name__ == '__main__':
