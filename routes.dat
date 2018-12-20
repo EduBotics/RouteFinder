@@ -1,0 +1,29 @@
+"Helios" <-> "Nike" : 4
+"Nike" <-> "Aphrodite" : 6
+"Aphrodite" <-> "Terra Firma" : 7
+"Terra Firma" <-> "Luna" : 1
+"Terra Firma" <-> "Demon Kingdom" : 8
+"Terra Firma" <-> "Phobia" : 8
+"Demon Kingdom" <-> "Phobia" : 1
+"Demon Kingdom" <-> "Galileo II" : 12
+"Demon Kingdom" <-> "Eureka" : 1
+"Phobia" <-> "Eureka" : 11
+"Phobia" <-> "Galileo II" : 13
+"Eureka" <-> "Galileo II" : 1
+"Eureka" <-> "Titanic City" : 16
+"Eureka" <-> "Umbria" : 25
+"Galileo II" <-> "Titanic City" : 15
+"Titanic City" <-> "Umbria" : 20
+"Titanic City" <-> "Trident" : 24
+"Umbria" <-> "Trident" : 17
+"Umbria" <-> "Limbo" : 28
+"Trident" <-> "Limbo" : 20
+"Trident" <-> "Sunset Boulevard" : 22
+"Limbo" <-> "Sunset Boulevard" : 1
+"Limbo" -> "Hades" : 23
+"Limbo" <-> "Trogstar Beta" : 48
+"Hades" -> "Limbo" : 223
+"Hades" -> "Trogstar Beta" : 232
+"Trogstar Beta" -> "Hades" : 32
+"Trogstar Beta" <-> "Maxima Centauri" : 64
+"Maxima Centauri" <-> "Helios" : 30
